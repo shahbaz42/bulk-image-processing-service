@@ -24,10 +24,13 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.637.0",
+    "axios": "^1.7.5",
     "bullmq": "^5.12.12",
     "express": "^4.19.2",
     "express-rate-limit": "^7.4.0",
     "ioredis": "^5.4.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "sharp": "^0.33.5"
   }
 }

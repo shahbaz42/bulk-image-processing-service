@@ -1,1 +1,1 @@
-export { ErrorHandler, APIError } from './errorHandlerUtil';
+export { ErrorHandler, APIError, logError } from './errorHandlerUtil';

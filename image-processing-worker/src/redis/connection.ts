@@ -1,9 +1,10 @@
 import Redis, { RedisOptions } from 'ioredis';
+import { REDIS_HOST, REDIS_PORT } from '../config';
 
 
 const redisConfig: RedisOptions = {
-  port: 6379,
-  host: '127.0.0.1',
+  port: Number(REDIS_PORT),
+  host: REDIS_HOST,
   maxRetriesPerRequest: null
 };
 
