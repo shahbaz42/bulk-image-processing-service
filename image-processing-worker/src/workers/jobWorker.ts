@@ -106,7 +106,7 @@ export class JobWorker {
           50
         );
         // 4. Upload the processed image to S3
-        const uploadResponse = await this.s3BucketService.uploadFile(
+        await this.s3BucketService.uploadFile(
           lowQualityImage,
           fileName
         );
