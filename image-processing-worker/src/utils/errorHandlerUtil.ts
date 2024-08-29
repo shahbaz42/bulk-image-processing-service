@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 interface APIError extends Error {
-    status?: number;
+  status?: number;
 }
 
 /**
@@ -12,19 +12,19 @@ interface APIError extends Error {
  * @param next Express.NextFunction
  */
 const ErrorHandler = (
-    err: APIError,
-    req: Request,
-    res: Response,
-    next: NextFunction
+  err: APIError,
+  req: Request,
+  res: Response,
+  next: NextFunction,
 ): void => {
-    const errStatus: number = err.status || 500;
-    const errMsg: string = err.message || 'Something went wrong';
-    res.status(errStatus).json({
-        success: false,
-        status: errStatus,
-        message: errMsg,
-        stack: process.env.NODE_ENV === 'dev' ? err.stack : {},
-    });
+  const errStatus: number = err.status || 500;
+  const errMsg: string = err.message || 'Something went wrong';
+  res.status(errStatus).json({
+    success: false,
+    status: errStatus,
+    message: errMsg,
+    stack: process.env.NODE_ENV === 'dev' ? err.stack : {},
+  });
 };
 
 /**
@@ -33,11 +33,11 @@ const ErrorHandler = (
  * @param error - The error object or message.
  */
 const logError = (error: any): void => {
-    console.error(
-        `Error reducing image quality: ${
-            error instanceof Error ? error.message : error
-        }`
-    );
+  console.error(
+    `Error reducing image quality: ${
+      error instanceof Error ? error.message : error
+    }`,
+  );
 };
 
 export { ErrorHandler, APIError, logError };
