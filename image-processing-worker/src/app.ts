@@ -3,6 +3,7 @@ import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
 import { ErrorHandler } from './utils';
 import { redisConnection } from './redis';
+import { JobWorker } from './workers';
 
 const app = express();
 app.use(rateLimit({ // rate limit
@@ -19,6 +20,9 @@ app.get('/health', (req: Request, res: Response) => { // for AWS EB health check
 redisConnection.on('connect', () => {
     console.log('Connected to Redis');
 });
+
+const jobWorker = new JobWorker('jobQueue', redisConnection);
+jobWorker.start();
 
 app.use(ErrorHandler);
 export default app;

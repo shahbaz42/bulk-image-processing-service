@@ -1,0 +1,1 @@
+export { ImageProcessingService } from './imageProcessingService';
