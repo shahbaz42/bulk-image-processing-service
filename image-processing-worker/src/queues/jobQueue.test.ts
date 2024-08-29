@@ -15,11 +15,23 @@ describe('JobQueue', () => {
       jobtype: JobType.ReduceQuality,
       data: [
         {
-          url: 'https://www.example.com/img1.png',
+          url: 'https://file-examples.com/storage/fed4cf5e5466cf5da9e984e/2017/10/file_example_JPG_100kB.jpg',
           metadata: {
             SKU: '12345',
           },
         },
+        {
+          url: 'https://file-examples.com/storage/fed4cf5e5466cf5da9e984e/2017/10/file_example_JPG_100kB.jpg',
+          metadata: {
+            SKU: '12345',
+          },
+        },
+        {
+          url: 'https://file-examples.com/storage/fed4cf5e5466cf5da9e984e/2017/10/file_example_JPG_100kB.jpg',
+          metadata: {
+            SKU: '22222',
+          },
+        }
       ],
     };
 

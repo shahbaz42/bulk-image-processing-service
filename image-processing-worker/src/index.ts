@@ -3,6 +3,7 @@ dotenv.config();
 import app from './app';
 import { PORT } from './config';
 
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
-});
+app
+// app.listen(PORT, () => {
+//   console.log(`Listening on port ${PORT}`);
+// });

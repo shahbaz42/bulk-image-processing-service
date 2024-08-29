@@ -23,7 +23,6 @@ export class ImageProcessingService {
       });
       return Buffer.from(response.data);
     } catch (error) {
-      logError(error);
       throw error;
     }
   }
@@ -41,7 +40,6 @@ export class ImageProcessingService {
       const response = await sharp(image).jpeg({ quality }).toBuffer();
       return response;
     } catch (error) {
-      logError(error);
       throw error;
     }
   }
