@@ -22,7 +22,7 @@ export class JobController {
 
 
 
-      return res.status(201).json({ message: 'Job created', s3FileUrl });
+      return res.status(201).json({ message: 'Job created', s3FileUrl, csvData });
     } catch (error) {
       next(error);
     }
