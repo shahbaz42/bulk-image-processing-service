@@ -1,27 +1,28 @@
 import { NextFunction, Request, Response } from 'express';
-import { validateCSVFile } from "../utils"
+import { S3BucketService } from '../services';
+import { readFileSync, unlinkSync } from 'fs';
+import { S3_BUCKET_URL, } from '../config';
+import { RequestWithCSV } from "../midddleware"
 
 export class JobController {
 
   async createNewJobController(
-    req: Request,
+    req: RequestWithCSV,
     res: Response,
     next: NextFunction
   ) {
     try {
-        const results = await validateCSVFile(req.file);
-        if (results.inValidData.length>0) 
-          return res.status(422).json({
-            success: false,
-            status: 422,
-            message: 'Validation error',
-            errors: results.inValidData,
-          });
+      console.log(req.file);
+
+        await (new S3BucketService()).uploadFile(readFileSync(req.file.path), req.file.filename);
+        unlinkSync(req.file.path);
         
-          console.log(results.data)
+        const s3FileUrl = `${S3_BUCKET_URL}${req.file.filename}`;
+        const csvData = req.csv;
 
 
-      return res.status(201).json({ message: 'Job created' });
+
+      return res.status(201).json({ message: 'Job created', s3FileUrl });
     } catch (error) {
       next(error);
     }

@@ -1,26 +1,6 @@
-import CSVFileValidator from 'csv-file-validator';
-import fs from 'fs';
 import isURL from 'validator/lib/isURL';
 
-/**
- * Validates a CSV file.
- * 
- * @param file - The CSV file to validate.
- * @returns A promise that resolves to the validation results.
- * @throws {Error} If no file is uploaded, the file type is invalid, or the file size is too large.
- */
-const validateCSVFile = async (file: Express.Multer.File) => {
-  if (!file) {
-    throw new Error('No file uploaded');
-  }
-  if (file.mimetype !== 'text/csv') {
-    throw new Error('Invalid file type');
-  }
-  if (file.size > 1000000) {
-    throw new Error('File size too large');
-  }
-
-  const config = {
+export const csvValidatorConfig = {
     headers: [
       {
         name: 'S. No.',
@@ -61,13 +41,12 @@ const validateCSVFile = async (file: Express.Multer.File) => {
           const urls = v.split(',');
 
           return urls.every((url: string) => {
-            if(isURL(url.trim())) {
+            if (isURL(url.trim())) {
               return true;
             } else {
-                console.log('Invalid URL:', url);
-                return false;
+              return false;
             }
-        });
+          });
         },
         validateError: function (
           headerName: any,
@@ -79,11 +58,3 @@ const validateCSVFile = async (file: Express.Multer.File) => {
       },
     ],
   };
-
-  // create readable stream from file
-  const stream = fs.createReadStream(file.path);
-  const results = await CSVFileValidator(stream, config);
-  return results;
-};
-
-export default validateCSVFile;

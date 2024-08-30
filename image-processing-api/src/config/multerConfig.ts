@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     // Sanitize the original filename
-    const originalName = sanitize(file.originalname);
+    const originalName = sanitize(file.originalname).replace(/ /g, '_');
 
     // Generate a unique filename with a secure random value
     const uniqueSuffix = crypto.randomBytes(16).toString('hex');
@@ -24,3 +24,4 @@ const storage = multer.diskStorage({
 });
 
 export const upload = multer({ storage });
+export { csvValidatorConfig } from "./csvValidatorConfig";
