@@ -4,8 +4,13 @@ import morgan from 'morgan';
 import { ErrorHandler } from './utils';
 import { redisConnection } from './redis';
 import { jobRouter } from './router';
+import { connectToDatabase } from './database';
 
 const app = express();
+
+connectToDatabase().then(() => {
+  console.log('Connected to MongoDB');
+});
 
 redisConnection.on('connect', () => {
   console.log('Connected to Redis');

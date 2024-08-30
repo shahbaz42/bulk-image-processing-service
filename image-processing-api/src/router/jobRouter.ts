@@ -1,13 +1,21 @@
 import express from 'express';
 import { JobController } from '../controllers';
 import { validateRequest } from '../utils';
-import { body } from 'express-validator';
+import { body, query } from 'express-validator';
 import { upload } from "../config"
 import { validateCsvMiddleware } from '../midddleware';
 import { csvValidatorConfig } from '../config';
 
 const router = express.Router();
 const jobController = new JobController();
+
+// job_id is mandatory
+router.get(
+  '/',
+  [query('job_id').isString().notEmpty().withMessage('job_id is required')],
+  validateRequest,
+  jobController.fetchJobStatus
+);
 
 router.post(
   '/',

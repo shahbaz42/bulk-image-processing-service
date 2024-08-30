@@ -1,1 +1,1 @@
-export { JobQueue } from './jobQueue';
+export { JobQueue, JobData, JobType } from './jobQueue';

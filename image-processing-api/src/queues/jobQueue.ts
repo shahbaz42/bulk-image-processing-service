@@ -7,12 +7,13 @@ export enum JobType {
   // add more job types here
 }
 
-interface JobData {
+export interface JobData {
   url: string;
   metadata: Record<string, any>;
 }
 
 interface JobPayload {
+  id: string,
   jobtype: JobType;
   data: JobData[];
 }
@@ -31,6 +32,8 @@ export class JobQueue {
 
     const job = await this.jobQueue.add(payload.jobtype, {
       data: payload.data,
+    },{
+      jobId:payload.id
     });
 
     return job.id;

@@ -15,6 +15,7 @@ export const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
 export const AWS_ACCESS_KEY_SECRET = process.env.AWS_ACCESS_KEY_SECRET;
 export const S3_BUCKET_NAME = process.env.S3_BUCKET_NAME;
 export const S3_BUCKET_URL = process.env.S3_BUCKET_URL;
+export const DB_URI = process.env.DB_URI;
 
 export { upload } from './multerConfig';
 export { csvValidatorConfig } from './csvValidatorConfig';

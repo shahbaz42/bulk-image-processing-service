@@ -1,1 +1,1 @@
-export { validateCsvMiddleware, RequestWithCSV } from "./validateCsvMiddleware"
+export { validateCsvMiddleware, RequestWithCSV, ICsvData } from "./validateCsvMiddleware"
