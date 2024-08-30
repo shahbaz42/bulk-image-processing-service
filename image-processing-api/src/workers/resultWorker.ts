@@ -1,6 +1,8 @@
 import { Redis } from 'ioredis';
 import { JobRepository } from '../database';
 import { Job, Worker } from 'bullmq';
+import { JobStatus, JobType, ResultJobData } from '../constants';
+import { CsvGenerationService } from '../services';
 
 export class ResultWorker {
   private readonly queueName: string;
@@ -18,6 +20,11 @@ export class ResultWorker {
     this.jobRepository = jobRepository;
   }
 
+  /**
+   * Starts the result worker.
+   *
+   * @returns {Promise<void>} A promise that resolves when the result worker is started.
+   */
   async start() {
     this.resultWorker = new Worker(
       this.queueName,
@@ -32,6 +39,9 @@ export class ResultWorker {
     );
   }
 
+  /**
+   * Stops the result worker and logs a message indicating the worker has stopped.
+   */
   async stop() {
     await this.resultWorker.close();
     console.log(
@@ -40,20 +50,19 @@ export class ResultWorker {
   }
 
   async processJob(resultJob: Job) {
-    console.log(
-      `Processing resultJob <${resultJob.id}> of queue ${this.queueName}`
-    );
-    const job_id = resultJob.id;
-    const jobtype = resultJob.name;
-    console.log(`Job ID: ${job_id}, Job Type: ${jobtype}`);
-    console.log(resultJob.data);
+    if (resultJob.name === JobType.ReduceQuality) {
+      const jobDoc = await this.jobRepository.fetchJob(resultJob.id);
 
-    // 1. Update job status in the database. 
+      // Generate the updated csv file, save to s3, and get the URL.
+      const updatedCsvUrl = await CsvGenerationService.generateCsvUrl(
+        resultJob.data.data as ResultJobData[],
+        jobDoc.input_csv_url
+      );
 
-    // 2. Generate a CSV file with the result data.
+      // Update job status in the database.
+      await this.jobRepository.MarkJobAsComplete(resultJob.id, updatedCsvUrl);
 
-    // 3. Upload the CSV file to an S3 bucket.
-
-    // 4. Send a POST request to the callback URL with the S3 file URL.
+      return 'Job completed successfully';
+    }
   }
 }
