@@ -1,6 +1,5 @@
 import axios from 'axios';
 import sharp from 'sharp';
-import { logError } from '../utils';
 
 /**
  * ImageProcessingService handles image processing operations.

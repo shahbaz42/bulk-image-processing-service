@@ -1,8 +1,8 @@
-import { PutObjectCommandOutput } from '@aws-sdk/client-s3';
 import { Job, Worker } from 'bullmq';
 import { Redis } from 'ioredis';
 import { ImageProcessingService, S3BucketService } from '../services';
 import { v4 as uuidv4 } from 'uuid';
+import { S3_BUCKET_URL } from '../config';
 
 // to-do migrate interfaces and constants to a separate file
 export enum JobType {
@@ -19,7 +19,7 @@ type UploadResult = {
   success: boolean;
   metadata?: Record<string, any>;
   error?: Error;
-  fileName?: string;
+  url?: string;
 };
 
 export class JobWorker {
@@ -48,7 +48,7 @@ export class JobWorker {
     this.jobWorker = new Worker(
       this.queueName,
       async (job: Job) => {
-        await this.processJob(job);
+        return await this.processJob(job);
       },
       {
         connection: this.redisConnection,
@@ -97,7 +97,7 @@ export class JobWorker {
     return new Promise(async (resolve, reject) => {
       try {
         // 1. Generate new file name
-        const fileName = `${d.metadata.SKU}-${uuidv4()}.jpg`;
+        const fileName = `${d.metadata['Product Name']}-${uuidv4()}.jpg`;
         // 2. Download the image from the URL
         const image = await this.imageProcessingService.downloadImage(d.url);
         // 3. Reduce the quality of the image
@@ -114,7 +114,7 @@ export class JobWorker {
         resolve({
           success: true,
           metadata: d.metadata,
-          fileName: fileName,
+          url: S3_BUCKET_URL+fileName,
         });
       } catch (error) {
         console.error('Error processing and uploading image:', error);

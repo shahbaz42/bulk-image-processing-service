@@ -9,7 +9,6 @@ import {
   AWS_ACCESS_KEY_SECRET,
   S3_BUCKET_NAME,
 } from '../config';
-import { logError } from '../utils';
 
 /**
  * S3BucketService handles file operations with AWS S3.
@@ -62,7 +61,6 @@ export class S3BucketService {
 
       return response;
     } catch (error) {
-      logError(error);
       throw error;
     }
   }
