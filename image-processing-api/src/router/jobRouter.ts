@@ -9,7 +9,6 @@ import { csvValidatorConfig } from '../config';
 const router = express.Router();
 const jobController = new JobController();
 
-// job_id is mandatory
 router.get(
   '/',
   [query('job_id').isString().notEmpty().withMessage('job_id is required')],

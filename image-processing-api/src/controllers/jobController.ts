@@ -2,12 +2,12 @@ import { NextFunction, Request, Response } from 'express';
 import { S3BucketService } from '../services';
 import { readFileSync, unlinkSync } from 'fs';
 import { S3_BUCKET_URL } from '../config';
-import { RequestWithCSV } from '../midddleware';
-import { Job, JobRepository, JobStatus } from '../database';
-import { JobQueue, JobType } from '../queues';
+import { Job, JobRepository } from '../database';
+import { JobQueue } from '../queues';
 import { redisConnection } from '../redis';
 import { transformCsvDataToJobData } from '../utils';
 import { v4 as uuidv4 } from 'uuid';
+import { JobStatus, RequestWithCSV, JobType } from '../constants';
 
 export class JobController {
   async createNewJobController(

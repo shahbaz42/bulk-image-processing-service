@@ -1,4 +1,5 @@
-import { Job, JobDocument, IJob } from '../models';
+import { Job } from '../models';
+import { JobDocument, IJob } from '../../constants';
 
 export class JobRepository {
   constructor(private jobModel: typeof Job) {}

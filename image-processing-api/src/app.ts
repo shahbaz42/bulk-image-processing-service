@@ -16,9 +16,9 @@ redisConnection.on('connect', () => {
   console.log('Connected to Redis');
 });
 
+// rate limit
 app.use(
   rateLimit({
-    // rate limit
     windowMs: 60 * 1000, // 1 minute
     max: 60, // 60 requests
   })
@@ -27,8 +27,8 @@ app.use(morgan('dev')); // logging
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// for AWS EB health check
 app.get('/health', (req: Request, res: Response) => {
-  // for AWS EB health check
   res.status(200).send('ok');
 });
 

@@ -1,8 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-
-interface APIError extends Error {
-  status?: number;
-}
+import { APIError } from '../constants'
 
 /**
  * This is the error handler middleware it handles all the errors, If NODE_ENV is dev then it will send the stack trace

@@ -1,22 +1,6 @@
 import { Redis } from 'ioredis';
-import { Job, Queue, Worker } from 'bullmq';
-
-// to-do migrate interfaces and constants to a separate file
-export enum JobType {
-  ReduceQuality = 'reduceQuality',
-  // add more job types here
-}
-
-export interface JobData {
-  url: string;
-  metadata: Record<string, any>;
-}
-
-interface JobPayload {
-  id: string,
-  jobtype: JobType;
-  data: JobData[];
-}
+import { Queue } from 'bullmq';
+import { JobPayload, JobType } from '../constants';
 
 export class JobQueue {
   private readonly jobQueue: Queue;
@@ -30,11 +14,15 @@ export class JobQueue {
       throw new Error(`Invalid job type: ${payload.jobtype}`);
     }
 
-    const job = await this.jobQueue.add(payload.jobtype, {
-      data: payload.data,
-    },{
-      jobId:payload.id
-    });
+    const job = await this.jobQueue.add(
+      payload.jobtype,
+      {
+        data: payload.data,
+      },
+      {
+        jobId: payload.id,
+      }
+    );
 
     return job.id;
   }

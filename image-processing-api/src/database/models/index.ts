@@ -1,8 +1,3 @@
 export {
-    JobStatus,
-    JobType,
-    JobData,
-    JobDocument,
-    Job,
-    IJob
+    Job
 } from './Job';

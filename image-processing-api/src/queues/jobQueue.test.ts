@@ -1,5 +1,6 @@
 import { Redis } from 'ioredis';
-import { JobQueue, JobType } from './jobQueue'; // Adjust the import based on your file structure
+import { JobQueue } from './jobQueue'; // Adjust the import based on your file structure
+import { JobType } from '../constants';
 
 const mockRedisConnection = new Redis();
 

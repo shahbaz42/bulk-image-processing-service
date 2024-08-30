@@ -1,16 +1,8 @@
 import CSVFileValidator from 'csv-file-validator';
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import fs from 'fs';
+import { RequestWithCSV } from "../constants"
 
-export interface ICsvData {
-  'S. No.': string,
-  'Product Name': string,
-  'Input Image Urls': string
-}
-
-export interface RequestWithCSV extends Request {
-  csv: ICsvData[];
-}
 /**
  * Middleware factory to validate a CSV file.
  *
