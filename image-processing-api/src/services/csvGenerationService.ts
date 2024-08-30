@@ -1,4 +1,4 @@
-import { ResultJobData } from '../constants';
+import { PromiseStatus, ResultJobData } from '../constants';
 import axios from 'axios';
 import Papa from 'papaparse';
 import { S3BucketService } from './s3BucketService';
@@ -17,11 +17,20 @@ export class CsvGenerationService {
     const productNameUrlMap = new Map<string, string[]>();
 
     data.forEach((result) => {
-      const productName = result.value.metadata['Product Name'] as string;
-      const url = result.value.url;
+      let productName: string;
+      let url: string;
+
+      if (result.status === PromiseStatus.Fulfilled){
+            productName = result.value.metadata['Product Name'] as string;
+            url = result.value.url;
+      } else {
+        productName = result.reason?.metadata['Product Name'] as string;
+        url = result.reason?.fileName;
+      }
 
       if (!productNameUrlMap.has(productName)) {
-        productNameUrlMap.set(productName, []);
+        productNameUrlMap.set(productName, [url]);
+
       } else {
         productNameUrlMap.get(productName)?.push(url);
       }

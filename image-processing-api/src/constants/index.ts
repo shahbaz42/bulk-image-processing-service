@@ -74,9 +74,17 @@ export interface ResultJobDataValue {
   url: string,
 }
 
+export interface RejectedResultJobDataValue {
+  success: boolean,
+  metadata: Record<string, any>,
+  error: any,
+  fileName: string,
+}
+
 export interface ResultJobData {
   status: PromiseStatus,
-  value: ResultJobDataValue,
+  value?: ResultJobDataValue,
+  reason?: RejectedResultJobDataValue,
 }
 
 export interface IResultJob {
