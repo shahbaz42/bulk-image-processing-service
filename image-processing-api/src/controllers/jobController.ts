@@ -34,8 +34,6 @@ export class JobController {
         data: jobData,
       });
 
-      console.log(jobData);
-
       const jobRepository = new JobRepository(Job);
       await jobRepository.createJob({
         job_id: id,

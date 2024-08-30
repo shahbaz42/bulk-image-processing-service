@@ -1,11 +1,14 @@
 import { Redis } from 'ioredis';
-import { Queue } from 'bullmq';
-import { JobPayload, JobType } from '../constants';
+import { Job, Queue, QueueEvents } from 'bullmq';
+import { JobPayload, JobType, ResultJobData } from '../constants';
+import { ResultQueue } from './resultQueue';
 
 export class JobQueue {
   private readonly jobQueue: Queue;
+  private readonly redisConnection: Redis;
 
   constructor(redisConnection: Redis) {
+    this.redisConnection = redisConnection;
     this.jobQueue = new Queue('jobQueue', { connection: redisConnection });
   }
 
@@ -25,5 +28,22 @@ export class JobQueue {
     );
 
     return job.id;
+  }
+
+  async startListener() {
+    console.log('Started jobQueue listener');
+    const queueEvents = new QueueEvents('jobQueue');
+    queueEvents.on('completed', async (job) => {
+      this.createNewResultJob(job.jobId, job.returnvalue as any);
+    });
+  }
+
+  async createNewResultJob(jobId: string, data: ResultJobData[]) {
+    const resultQueue = new ResultQueue(this.redisConnection);
+    await resultQueue.addJob({
+      jobtype: JobType.ReduceQuality,
+      job_id: jobId,
+      data,
+    });
   }
 }

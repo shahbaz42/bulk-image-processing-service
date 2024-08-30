@@ -38,8 +38,10 @@ export const csvValidatorConfig = {
         name: 'Input Image Urls',
         inputName: 'Input Image Urls',
         validate: function (v: string) {
+          if (v.endsWith(',')) {
+            v = v.slice(0, -1);
+          }
           const urls = v.split(',');
-
           return urls.every((url: string) => {
             if (isURL(url.trim())) {
               return true;

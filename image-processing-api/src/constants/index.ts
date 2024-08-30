@@ -61,3 +61,26 @@ export interface JobPayload {
 export interface APIError extends Error {
   status?: number;
 }
+
+/* Result queue related constants */
+export enum PromiseStatus {
+  Fulfilled = 'fulfilled',
+  Rejected = 'rejected',
+}
+
+export interface ResultJobDataValue {
+  success: boolean,
+  metadata: Record<string, any>,
+  url: string,
+}
+
+export interface ResultJobData {
+  status: PromiseStatus,
+  value: ResultJobDataValue,
+}
+
+export interface IResultJob {
+  jobtype: JobType,
+  job_id: string,
+  data: ResultJobData[],
+}
