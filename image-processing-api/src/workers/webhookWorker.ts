@@ -21,6 +21,9 @@ export class WebhookWorker {
     this.jobRepository = jobRepository;
   }
 
+  /**
+   * Starts the webhook worker.
+   */
   async start() {
     this.webhookWorker = new Worker(
       this.queueName,
@@ -35,6 +38,9 @@ export class WebhookWorker {
     );
   }
 
+  /**
+   * Stops the webhook worker and logs a message.
+   */
   async stop() {
     await this.webhookWorker.close();
     console.log(
@@ -42,12 +48,23 @@ export class WebhookWorker {
     );
   }
 
+  /**
+   * Processes a job by sending a webhook and updating the job status.
+   * @param payload - The job payload.
+   * @returns A string indicating the status of the webhook.
+   */
   async processJob(payload: Job) {
+    console.log(`WebhookWorker <${this.webhookWorker.id}> processing job <payload.data.data.job_id>`)
     await this.sendWebhook(payload.data.data);
     await this.jobRepository.setWebhookSent(payload.data.data.job_id);
     return "webhook sent";
   }
 
+  /**
+   * Sends a webhook with the provided payload.
+   * @param payload - The payload to be sent in the webhook.
+   * @returns A Promise that resolves to the response from the webhook.
+   */
   async sendWebhook(payload: WebhookPayload): Promise<any> {
     const url = payload.webhook;
     const data = {

@@ -75,7 +75,7 @@ export class JobWorker {
    * @returns A promise that resolves to the result of processing the job.
    */
   async processJob(job: Job) {
-    console.log(`Processing job <${job.id}> of type ${job.name}`);
+    console.log(`Job Worker <${this.jobWorker.id}> Processing job <${job.id}> of type ${job.name}`);
     if (job.name === JobType.ReduceQuality) {
       const data = job.data.data as JobData[];
       let pArr: Promise<UploadResult>[] = [];
@@ -83,7 +83,7 @@ export class JobWorker {
         pArr.push(this.processAndUploadSingleImage(d));
       });
       const result = await Promise.allSettled(pArr);
-      console.log('Processed and uploaded images:', result);
+      // console.log('Processed and uploaded images:', result);
       return result; // to asynchronously process all images
     }
   }

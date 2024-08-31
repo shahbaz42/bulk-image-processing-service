@@ -55,6 +55,7 @@ export class ResultWorker {
 
   async processJob(resultJob: Job) {
     if (resultJob.name === JobType.ReduceQuality) {
+      console.log(`ResultWorker <${this.resultWorker.id}> Processing result <${resultJob.id}>`)
       const jobDoc = await this.jobRepository.fetchJob(resultJob.id);
 
       // Generate the updated csv file, save to s3, and get the URL.
