@@ -57,6 +57,10 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).send('Server is running.');
+})
+
 // for AWS EB health check
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).send('ok');
