@@ -18,6 +18,11 @@ export class WebhookQueue {
       },
       {
         jobId: payload.job_id,
+        attempts: 10, // number of retries 
+        backoff: {
+          type: 'exponential',
+          delay: 5000, // Initial delay of 5 second (5000ms)
+        },
       }
     );
     return webhook.id;
