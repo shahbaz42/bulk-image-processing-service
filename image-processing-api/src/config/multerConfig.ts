@@ -2,9 +2,15 @@ import multer from 'multer';
 import path from 'path';
 import crypto from 'crypto';
 import sanitize from 'sanitize-filename';
+import fs from 'fs';
+
+if (!fs.existsSync('src/uploads')) {
+  fs.mkdirSync('src/uploads');
+}
 
 // Configure multer with filename option to retain the original file extension
 const storage = multer.diskStorage({
+  // create uploads directory if it doesn't exist
   destination: (req, file, cb) => {
     cb(null, 'src/uploads/');
   },
