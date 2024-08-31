@@ -12,6 +12,7 @@ const JobSchema: Schema = new Schema({
     status: { type: String, enum: Object.values(JobStatus), required: true },
     job_type: { type: String, enum: Object.values(JobType), required: true },
     data: { type: [DataSchema], required: true },
+    processed_data: { type: [DataSchema], required: false },
     input_csv_url: { type: String, required: true },
     output_csv_url: { type: String, required: false }
 });

@@ -96,8 +96,10 @@ export class JobWorker {
   private async processAndUploadSingleImage(d: JobData): Promise<UploadResult> {
     return new Promise(async (resolve, reject) => {
       try {
+        const timestamp = new Date().getTime() + ""
+        
         // 1. Generate new file name
-        const fileName = `${d.metadata['Product Name']}-${uuidv4()}.jpg`;
+        const fileName = d.url.split('.').slice(0, -1).join('.');
         // 2. Download the image from the URL
         const image = await this.imageProcessingService.downloadImage(d.url);
         // 3. Reduce the quality of the image
@@ -108,13 +110,13 @@ export class JobWorker {
         // 4. Upload the processed image to S3
         await this.s3BucketService.uploadFile(
           lowQualityImage,
-          fileName
+          fileName + `-${timestamp}-resized.jpg`
         );
 
         resolve({
           success: true,
           metadata: d.metadata,
-          url: S3_BUCKET_URL+fileName,
+          url: fileName + `-${timestamp}-resized.jpg`,
         });
       } catch (error) {
         console.error('Error processing and uploading image:', error);
@@ -125,7 +127,7 @@ export class JobWorker {
             error instanceof Error
               ? error
               : new Error('Unknown error occurred'),
-          fileName: `${d.metadata.SKU}-${uuidv4()}.jpg`,
+          fileName: `${d.url}`,
         });
       }
     });

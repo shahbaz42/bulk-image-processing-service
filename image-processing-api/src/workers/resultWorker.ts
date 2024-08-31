@@ -60,7 +60,10 @@ export class ResultWorker {
       );
 
       // Update job status in the database.
-      await this.jobRepository.MarkJobAsComplete(resultJob.id, updatedCsvUrl);
+      await this.jobRepository.markJobAsComplete(resultJob.id, updatedCsvUrl);
+
+      // update processed data in the database.
+      await this.jobRepository.saveProcessedData(resultJob.id, resultJob.data.data as ResultJobData[]);
 
       return 'Job completed successfully';
     }

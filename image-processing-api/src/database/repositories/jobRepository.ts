@@ -1,5 +1,11 @@
 import { Job } from '../models';
-import { JobDocument, IJob, JobStatus } from '../../constants';
+import {
+  JobDocument,
+  IJob,
+  JobStatus,
+  ResultJobData,
+  PromiseStatus,
+} from '../../constants';
 
 export class JobRepository {
   constructor(private jobModel: typeof Job) {}
@@ -31,7 +37,7 @@ export class JobRepository {
    * @param status - The new status of the job.
    * @returns A Promise that resolves to the updated JobDocument.
    */
-  async MarkJobAsComplete(
+  async markJobAsComplete(
     job_id: string,
     output_csv_url: string
   ): Promise<JobDocument> {
@@ -39,6 +45,39 @@ export class JobRepository {
       { job_id: job_id },
       { output_csv_url, status: JobStatus.Completed },
       { new: true } // Return the updated document
+    );
+  }
+
+  /**
+   * Saves the processed data for a job.
+   * @param job_id - The ID of the job.
+   * @param data - An array of ResultJobData objects representing the processed data.
+   * @returns A Promise that resolves to the updated JobDocument.
+   */
+  async saveProcessedData(
+    job_id: string,
+    data: ResultJobData[]
+  ): Promise<JobDocument> {
+    const processed_data = [];
+
+    for (const obj of data) {
+      if (obj.status === PromiseStatus.Fulfilled) {
+        processed_data.push({
+          url: obj.value.url,
+          metadata: obj.value.metadata,
+        });
+      } else {
+        processed_data.push({
+          url: obj.reason.fileName,
+          metadata: obj.reason.metadata,
+        });
+      }
+    }
+
+    return this.jobModel.findOneAndUpdate(
+      { job_id: job_id },
+      { processed_data },
+      { new: true }
     );
   }
 }
