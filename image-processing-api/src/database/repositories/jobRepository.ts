@@ -80,4 +80,17 @@ export class JobRepository {
       { new: true }
     );
   }
+
+  /**
+   * Sets the webhook_sent flag to true for a specific job.
+   * @param job_id - The ID of the job.
+   * @returns A promise that resolves to the updated JobDocument.
+   */
+  async setWebhookSent(job_id: string): Promise<JobDocument> {
+    return this.jobModel.findOneAndUpdate(
+      { job_id },
+      { webhook_sent: true },
+      { new: true }
+    );
+  }
 }

@@ -20,6 +20,7 @@ export interface JobData {
 export interface IJob {
   job_id: string;
   webhook?: string;
+  webhook_sent?: boolean;
   status: JobStatus;
   job_type: JobType;
   data: JobData[];
@@ -30,6 +31,7 @@ export interface IJob {
 export interface JobDocument extends Document {
   job_id: string;
   webhook?: string;
+  webhook_sent?: boolean;
   status: JobStatus;
   job_type: JobType;
   data: JobData[];

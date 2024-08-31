@@ -6,7 +6,7 @@ import { redisConnection } from './redis';
 import { jobRouter } from './router';
 import { connectToDatabase } from './database';
 import { JobQueue, WebhookQueue } from './queues';
-import { ResultWorker } from './workers';
+import { ResultWorker, WebhookWorker } from './workers';
 import { JobRepository, Job } from './database';
 
 const app = express();
@@ -35,6 +35,14 @@ const resultWorker = new ResultWorker(
   webhookQueue
 );
 resultWorker.start();
+
+// starting webhook worker
+const webhookWorker = new WebhookWorker(
+  'webhookQueue',
+  redisConnection,
+  jobRepository
+);
+webhookWorker.start();
 
 // rate limit
 app.use(

@@ -74,7 +74,7 @@ export class ResultWorker {
         await this.webhookQueue.addwebhook({
           job_id: jobDoc.job_id,
           webhook: jobDoc.webhook,
-          status: JobStatus.Queued,
+          status: JobStatus.Completed,
           output_csv_url: updatedCsvUrl,
           input_csv_url: jobDoc.input_csv_url,
         });

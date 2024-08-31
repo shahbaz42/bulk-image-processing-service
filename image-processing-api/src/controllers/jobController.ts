@@ -61,6 +61,8 @@ export class JobController {
         data: {
           job_id: job.job_id,
           status: job.status,
+          webhook: job.webhook,
+          webhook_sent: job.webhook_sent,
           input_csv_url: job.input_csv_url,
           output_csv_url: job.output_csv_url,
         },
