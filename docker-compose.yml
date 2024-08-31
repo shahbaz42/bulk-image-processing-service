@@ -16,7 +16,7 @@ services:
     env_file:
       - ./image-processing-api/.env
     ports:
-      - "8000:8000"
+      - "5858:8000"
     depends_on:
       - redis
     networks:
@@ -25,13 +25,14 @@ services:
   image-processing-worker:
     build:
       context: ./image-processing-worker
-    container_name: image-processing-worker
     env_file:
       - ./image-processing-worker/.env
     depends_on:
       - redis
     networks:
       - image-processing-network
+    deploy:
+      replicas: 3
 
 networks:
   image-processing-network:
