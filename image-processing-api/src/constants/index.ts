@@ -19,7 +19,7 @@ export interface JobData {
 
 export interface IJob {
   job_id: string;
-  callback_url?: string;
+  webhook?: string;
   status: JobStatus;
   job_type: JobType;
   data: JobData[];
@@ -29,7 +29,7 @@ export interface IJob {
 
 export interface JobDocument extends Document {
   job_id: string;
-  callback_url?: string;
+  webhook?: string;
   status: JobStatus;
   job_type: JobType;
   data: JobData[];
@@ -91,4 +91,14 @@ export interface IResultJob {
   jobtype: JobType,
   job_id: string,
   data: ResultJobData[],
+}
+
+/* webhook related constants */
+
+export interface WebhookPayload {
+  job_id: string;
+  webhook: string;
+  status: JobStatus;
+  input_csv_url: string;
+  output_csv_url?: string;
 }

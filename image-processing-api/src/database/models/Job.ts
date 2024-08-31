@@ -8,7 +8,7 @@ const DataSchema: Schema = new Schema({
 
 const JobSchema: Schema = new Schema({
     job_id: { type: String, required: true, unique: true },
-    callback_url: { type: String, required: false },
+    webhook: { type: String, required: false },
     status: { type: String, enum: Object.values(JobStatus), required: true },
     job_type: { type: String, enum: Object.values(JobType), required: true },
     data: { type: [DataSchema], required: true },

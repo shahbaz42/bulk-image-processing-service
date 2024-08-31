@@ -19,7 +19,7 @@ router.get(
 router.post(
   '/',
   upload.single('file'),
-  [body('callback_url').optional().isURL().withMessage('Invalid URL')],
+  [body('webhook').optional().isURL().withMessage('Invalid URL')],
   validateRequest,
   validateCsvMiddleware(csvValidatorConfig),
   jobController.createNewJobController

@@ -5,7 +5,7 @@ import { ErrorHandler } from './utils';
 import { redisConnection } from './redis';
 import { jobRouter } from './router';
 import { connectToDatabase } from './database';
-import { JobQueue } from './queues';
+import { JobQueue, WebhookQueue } from './queues';
 import { ResultWorker } from './workers';
 import { JobRepository, Job } from './database';
 
@@ -25,9 +25,15 @@ redisConnection.on('connect', () => {
 const jobQueue = new JobQueue(redisConnection);
 jobQueue.startListener();
 
-// Starting Result Worker to process result jobs
+// Starting Result Worker to process job results
 const jobRepository = new JobRepository(Job);
-const resultWorker = new ResultWorker('resultQueue', redisConnection, jobRepository);
+const webhookQueue = new WebhookQueue(redisConnection);
+const resultWorker = new ResultWorker(
+  'resultQueue',
+  redisConnection,
+  jobRepository,
+  webhookQueue
+);
 resultWorker.start();
 
 // rate limit
@@ -39,7 +45,7 @@ app.use(
 );
 
 // Logging and parsing
-app.use(morgan('dev')); 
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

@@ -37,7 +37,7 @@ export class JobController {
       const jobRepository = new JobRepository(Job);
       await jobRepository.createJob({
         job_id: id,
-        callback_url: req.body.callback_url,
+        webhook: req.body.webhook,
         status: JobStatus.Queued,
         job_type: JobType.ReduceQuality,
         data: jobData,
