@@ -32,7 +32,9 @@ export class JobQueue {
 
   async startListener() {
     console.log('Started jobQueue listener');
-    const queueEvents = new QueueEvents('jobQueue');
+    const queueEvents = new QueueEvents('jobQueue', {
+      connection: this.redisConnection,
+    });
     queueEvents.on('completed', async (job) => {
       this.createNewResultJob(job.jobId, job.returnvalue as any);
     });
