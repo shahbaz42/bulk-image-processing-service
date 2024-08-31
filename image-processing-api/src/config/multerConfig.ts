@@ -10,7 +10,6 @@ if (!fs.existsSync('src/uploads')) {
 
 // Configure multer with filename option to retain the original file extension
 const storage = multer.diskStorage({
-  // create uploads directory if it doesn't exist
   destination: (req, file, cb) => {
     cb(null, 'src/uploads/');
   },

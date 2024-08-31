@@ -5,7 +5,7 @@ import { S3_BUCKET_URL } from '../config';
 import { Job, JobRepository } from '../database';
 import { JobQueue } from '../queues';
 import { redisConnection } from '../redis';
-import { transformCsvDataToJobData } from '../utils';
+import { ApiError, transformCsvDataToJobData } from '../utils';
 import { v4 as uuidv4 } from 'uuid';
 import { JobStatus, RequestWithCSV, JobType } from '../constants';
 
@@ -55,6 +55,9 @@ export class JobController {
       const job_id = req.query.job_id as string;
       const jobRepository = new JobRepository(Job);
       const job = await jobRepository.fetchJob(job_id);
+
+      if (!job)
+        throw new ApiError(402, "Id Not Found");
 
       return res.status(201).json({
         message: 'Job status fetched',
