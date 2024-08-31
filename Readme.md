@@ -29,7 +29,7 @@ The system performs the following tasks:
 
 - **Postman Documentation**: [API Documentation](https://documenter.getpostman.com/view/38015276/2sAXjM2qbW)
 
-## Componenets
+## Components
 
 ### 1. API server
 
@@ -130,6 +130,8 @@ docker-compose up
 
 
 ## Architecture
+
+![alt text](<https://shahbaz-bucket.s3.ap-south-1.amazonaws.com/Bulk+image+Processing+Server+(2).jpg>)
 
 The architecture employs BullMQ for managing job queues. The system creates and processes tasks asynchronously, ensuring smooth and efficient execution without overloading the servers.
 
