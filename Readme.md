@@ -29,6 +29,19 @@ The system performs the following tasks:
 
 - **Postman Documentation**: [API Documentation](https://documenter.getpostman.com/view/38015276/2sAXjM2qbW)
 
+## Architecture
+
+![alt text](<https://shahbaz-bucket.s3.ap-south-1.amazonaws.com/Bulk+image+Processing+Server+(2).jpg>)
+
+The architecture employs BullMQ for managing job queues. The system creates and processes tasks asynchronously, ensuring smooth and efficient execution without overloading the servers.
+
+1. **Efficient Task Management**: The architecture handles task distribution among workers, ensuring that jobs are processed asynchronously without blocking the system. This allows for better resource utilization and quicker processing times.
+
+2. **Scalability**: The architecture supports horizontal scaling, enabling the system to add more workers as the workload increases. This ensures the architecture can handle a large volume of tasks without performance degradation.
+
+3. **Reliability and Fault Tolerance**:  Even if a few workers are down, jobs are automatically re-queued and picked up by other available workers, ensuring continuous processing without data loss or significant delays.
+
+
 ## Components
 
 ### 1. API server
@@ -128,18 +141,6 @@ docker-compose up
 
 - **image-processing-api Server**: `http://localhost:5858`
 
-
-## Architecture
-
-![alt text](<https://shahbaz-bucket.s3.ap-south-1.amazonaws.com/Bulk+image+Processing+Server+(2).jpg>)
-
-The architecture employs BullMQ for managing job queues. The system creates and processes tasks asynchronously, ensuring smooth and efficient execution without overloading the servers.
-
-1. **Efficient Task Management**: The architecture handles task distribution among workers, ensuring that jobs are processed asynchronously without blocking the system. This allows for better resource utilization and quicker processing times.
-
-2. **Scalability**: The architecture supports horizontal scaling, enabling the system to add more workers as the workload increases. This ensures the architecture can handle a large volume of tasks without performance degradation.
-
-3. **Reliability and Fault Tolerance**:  Even if a few workers are down, jobs are automatically re-queued and picked up by other available workers, ensuring continuous processing without data loss or significant delays.
 
 ## Codebase Cleanliness & Organization
 
