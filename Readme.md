@@ -31,7 +31,7 @@ The system performs the following tasks:
 
 ## Architecture
 
-![alt text](<https://shahbaz-bucket.s3.ap-south-1.amazonaws.com/Bulk+image+Processing+Server+(2).jpg>)
+![alt text](<https://raw.githubusercontent.com/shahbaz42/bulk-image-processing-service/refs/heads/main/doc_images/architecture.jpg>)
 
 The architecture employs BullMQ for managing job queues. The system creates and processes tasks asynchronously, ensuring smooth and efficient execution without overloading the servers.
 
